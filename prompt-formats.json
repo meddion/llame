@@ -1,0 +1,200 @@
+{
+  "alpaca": {
+    "template": "{{.Prompt}}\n\n{{.History}}\n\n{{.Char}}:",
+    "historyTemplate": "### {{.Name}}:\n{{.Message}}",
+    "char": "Response",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "Instruction",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": ""
+  },
+  "chatml": {
+    "template": "<|im_start|>system\n{{.Prompt}}<|im_end|>\n{{.History}}{{.Char}}",
+    "historyTemplate": "<|im_start|>{{.Name}}\n{{.Message}}",
+    "char": "assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "user",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "<|im_end|>\n",
+    "stops": ""
+  },
+  "commandr": {
+    "template": "<BOS_TOKEN><|START_OF_TURN_TOKEN|><|SYSTEM_TOKEN|>{{.Prompt}}\n<|END_OF_TURN_TOKEN|>{{.History}}{{.Char}}",
+    "historyTemplate": "<|START_OF_TURN_TOKEN|><|{{.Name}}|> {{.Message}}",
+    "char": "CHATBOT_TOKEN",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "USER_TOKEN",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "<|END_OF_TURN_TOKEN|>",
+    "stops": ""
+  },
+  "llama2": {
+    "template": "<s>[INST] <<SYS>>\n{{.Prompt}}\n<</SYS>>\n\nTest Message [/INST] Test Successfull </s>{{.History}}{{.Char}}",
+    "historyTemplate": "{{.Name}}: {{.Message}}",
+    "char": "Assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "</s>",
+    "user": "User",
+    "userMsgPrefix": "<s>[INST] ",
+    "userMsgSuffix": " [/INST]",
+    "stops": ""
+  },
+  "llama3": {
+    "template": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{{.Prompt}}{{.History}}{{.Char}}",
+    "historyTemplate": "<|start_header_id|>{{.Name}}<|end_header_id|>\n\n{{.Message}}<|eot_id|>",
+    "char": "assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "user",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": "<|eot_id|>"
+  },
+  "openchat": {
+    "template": "{{.History}}{{.Char}}",
+    "historyTemplate": "GPT4 Correct {{.Name}}: {{.Message}}<|end_of_turn|>",
+    "char": "Assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "User",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": ""
+  },
+  "phi3": {
+    "template": "{{.History}}{{.Char}}",
+    "historyTemplate": "<|{{.Name}}|>\n{{.Message}}<|end|>\n",
+    "char": "assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "user",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": "<|end|>"
+  },
+  "vicuna": {
+    "template": "{{.Prompt}}\n{{.History}}{{.Char}}",
+    "historyTemplate": "{{.Name}}: {{.Message}}\n",
+    "char": "ASSISTANT",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "USER",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": ""
+  },
+  "deepseekCoder": {
+    "template": "{{.Prompt}}{{.History}}{{.Char}}:",
+    "historyTemplate": "### {{.Name}}:\n{{.Message}}",
+    "char": "Response",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "Instruction",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": "<|EOT|>"
+  },
+  "med42": {
+    "template": "<|system|>: {{.Prompt}}\n{{.History}}{{.Char}}",
+    "historyTemplate": "<|{{.Name}}|>: {{.Message}}\n",
+    "char": "assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "prompter",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": ""
+  },
+  "neuralchat": {
+    "template": "### System:\n{{.Prompt}}\n{{.History}}{{.Char}}:",
+    "historyTemplate": "### {{.Name}}:\n{{.Message}}\n",
+    "char": "Assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "User",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": ""
+  },
+  "nousHermes": {
+    "template": "### Instruction: {{.Prompt}}\n\n{{.History}}\n\n{{.Char}}:",
+    "historyTemplate": "### {{.Name}}:\n{{.Message}}",
+    "char": "Response",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "Input",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": ""
+  },
+  "openchatMath": {
+    "template": "{{.History}}{{.Char}}",
+    "historyTemplate": "Math Correct {{.Name}}: {{.Message}}<|end_of_turn|>",
+    "char": "Assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "User",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": ""
+  },
+  "orion": {
+    "template": "<s>Human: Test Message\n\nAssistant: </s>Test Successful</s>{{.History}}{{.Char}}:",
+    "historyTemplate": "{{.Name}}: {{.Message}}",
+    "char": "Assistant </s>",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "Human",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "\n\n",
+    "stops": ""
+  },
+  "sauerkraut": {
+    "template": "{{.Prompt}}\n{{.History}}{{.Char}}",
+    "historyTemplate": "\n  {{.Name}}: {{.Message}}\n",
+    "char": "Assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "User",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": ""
+  },
+  "starlingCode": {
+    "template": "{{.History}}{{.Char}}",
+    "historyTemplate": "Code {{.Name}}: {{.Message}}<|end_of_turn|>",
+    "char": "Assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "User",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": ""
+  },
+  "yi34b": {
+    "template": "{{.History}} {{.Char}}",
+    "historyTemplate": "{{.Name}}: {{.Message}}",
+    "char": "Assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "Human",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": ""
+  },
+  "zephyr": {
+    "template": "<|system|>\n{{.Prompt}}</s>\n{{.History}}{{.Char}}",
+    "historyTemplate": "<|{{.Name}}|>\n{{.Message}}</s>\n",
+    "char": "assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "",
+    "user": "user",
+    "userMsgPrefix": "",
+    "userMsgSuffix": "",
+    "stops": ""
+  }
+}
