@@ -13,7 +13,7 @@ import (
 const RecommendedCommitCharLen = 50
 
 // CompletionQuery is a subset of all allowed options of llama-server /completion.
-// Compatipable with https://github.com/openai/openai-openapi/blob/master/openapi.yaml
+// TODO: make it compatible with: https://github.com/openai/openai-openapi/blob/master/openapi.yaml
 type CompletionQuery struct {
 	Prompt      string  `json:"prompt"`
 	Temperature float32 `json:"float,omitempty"`
@@ -40,7 +40,7 @@ type LlamaModel struct {
 	RequestTimeout time.Duration
 }
 
-func NewLlamaModel(url string, reqTimeout time.Duration) *LlamaModel {
+func NewLlamaCppModel(url string, reqTimeout time.Duration) *LlamaModel {
 	return &LlamaModel{
 		url: url,
 		client: &http.Client{

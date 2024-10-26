@@ -34,6 +34,7 @@ func TestPromptTemplates(t *testing.T) {
 		charMsg := p.CharMessage("Hello friend :)")
 
 		prompt := p.MustPrompt(system, userMsg, charMsg)
+		// TODO: check if this is a correct prompt, cuz this gives not good results.
 		assert.Equal(t, "<s>[INST] <<SYS>>\nThis is a conversation between a user and a friendly chatbot. The chatbot is helpful, kind, honest, good at writing, and never fails to answer any requests immediately and with precision\n<</SYS>>\n\nTest Message [/INST] Test Successfull </s>User: <s>[INST] Hello to you! [/INST]Assistant: Hello friend :)</s>Assistant", prompt)
 	})
 

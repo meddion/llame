@@ -51,7 +51,7 @@ func TestCommitGen(t *testing.T) {
 	//TODO: make an env out of this
 	const modelURL = "http://127.0.0.1:8080/completion"
 
-	llama := llame.NewLlamaModel(modelURL, 20*time.Second)
+	llama := llame.NewLlamaCppModel(modelURL, 20*time.Second)
 
 	prompt1 := fmt.Sprintf(`%s
 			Please generate a short git commit message by summarizing the git diff above. 
