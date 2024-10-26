@@ -43,6 +43,17 @@
     "userMsgSuffix": " [/INST]",
     "stops": ""
   },
+  "mistral": {
+    "template": "TODO",
+    "historyTemplate": "{{.Name}}: {{.Message}}",
+    "char": "Assistant",
+    "charMsgPrefix": "",
+    "charMsgSuffix": "</s>",
+    "user": "User",
+    "userMsgPrefix": "[INST] ",
+    "userMsgSuffix": " [/INST]",
+    "stops": ""
+  },
   "llama3": {
     "template": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{{.Prompt}}{{.History}}{{.Char}}",
     "historyTemplate": "<|start_header_id|>{{.Name}}<|end_header_id|>\n\n{{.Message}}<|eot_id|>",
