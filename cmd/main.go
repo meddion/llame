@@ -4,9 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
+	"maps"
 	"net/url"
 	"os"
 	"os/signal"
+	"slices"
+	"strings"
 	"syscall"
 	"time"
 
@@ -20,8 +24,9 @@ import (
 var CLI struct {
 	Log           bool          `short:"l" help:"Enable logs."`
 	LogDirectory  string        `short:"d" type:"path" help:"Directory where to write logs. By default /tmp and /tmp/var are tried."`
-	ModelEndpoint *url.URL      `type:"url" short:"m" env:"MODEL_ENDPOINT" default:"http://127.0.0.1:8080/completion" help:"URL to access a LLM."`
+	ModelEndpoint *url.URL      `type:"url" short:"e" env:"MODEL_ENDPOINT" default:"http://127.0.0.1:8080/completion" help:"URL to access a LLM."`
 	Timeout       time.Duration `default:"15s" short:"t" help:"Duration for which the model should respond with results."`
+	ModelType     string        `default:"mistral" short:"m" enum:"mistral,alpaca,chatml,commandr,llama2,llama3,openchat,phi3,vicuna,deepseekCoder,med42,neuralchat,nousHermes,openchatMath,orion,sauerkraut,starlingCode,yi34b,zephyr"`
 }
 
 func main() {
@@ -36,10 +41,7 @@ func main() {
 
 	kongCtx := kong.Parse(&CLI)
 	initLogging()
-
-	if kongCtx.Command() != "" {
-		llame.Fatalf("unknown command: %s", kongCtx.Command())
-	}
+	validateFlags(kongCtx)
 
 	_, err := llame.NewGitRepo()
 	if err != nil {
@@ -50,7 +52,7 @@ func main() {
 		llame.Fatalf("Failed to open git repository: %s", err)
 	}
 
-	model := llame.NewLlamaModel(CLI.ModelEndpoint.String(), CLI.Timeout)
+	model := llame.NewLlamaCppModel(CLI.ModelEndpoint.String(), CLI.Timeout)
 
 	diff, err := llame.GitDiffStaged(rootCtx)
 	if err != nil {
@@ -64,7 +66,7 @@ func main() {
 	}
 
 	comp := llame.CompletionQuery{
-		Prompt:      newMistralPrompt(string(diff)),
+		Prompt:      newOneshotPrompt(CLI.ModelType, string(diff)),
 		NPredict:    512,
 		Temperature: 0.5,
 	}
@@ -97,21 +99,41 @@ func initLogging() {
 	}
 }
 
-func newMistralPrompt(diff string) string {
-	p, ok := llame.GetPromptFormats()["llama2"]
+func newOneshotPrompt(modelType, diff string) string {
+	p, ok := llame.GetPromptFormats()[modelType]
 	if !ok {
-		panic("llama2 not found")
+		panic(fmt.Errorf("model of type '%s' not found", modelType))
 	}
-
-	// const system = "This is a conversation between a user and a git chatbot. The chatbot is helpful, kind, honest, good at writing, and never fails to answer any requests immediately and with precision"
-	const system = ""
 
 	userContent := p.UserContent("Given the following code diff, generate a concise subject for commit message " +
 		"(under 50 characters) that summarizes the change clearly and effectively:\n" + diff)
 
-	// userMsg := p.UserMessage("Given the following code diff, generate a concise subject for commit message " +
-	// 	"(under 50 characters) that summarizes the change clearly and effectively:\n" + diff)
-
-	// return p.MustPrompt(system, userMsg)
 	return userContent
+}
+
+func validateFlags(kongCtx *kong.Context) {
+	if kongCtx.Command() != "" {
+		llame.Fatalf("unknown command: %s", kongCtx.Command())
+	}
+
+	var enumModelTypes []string
+	for _, flag := range kongCtx.Flags() {
+		if flag.Name == "model-type" {
+			enumModelTypes = strings.Split(flag.Enum, ",")
+			slices.Sort(enumModelTypes)
+		}
+	}
+
+	supportedModelTypes := slices.Sorted(maps.Keys(llame.GetPromptFormats()))
+
+	if len(enumModelTypes) != len(supportedModelTypes) {
+		panic("len(enumModelTypes) != len(supportedModelTypes)")
+	}
+
+	for i := range enumModelTypes {
+		if enumModelTypes[i] != supportedModelTypes[i] {
+			panic(fmt.Errorf("at index %d enumModelTypes = %s, but upportedModelTypes = %s",
+				i, enumModelTypes[i], supportedModelTypes[i]))
+		}
+	}
 }
