@@ -3,6 +3,7 @@ package llame_test
 import (
 	"context"
 	"fmt"
+	"os"
 	"sync"
 	"testing"
 	"time"
@@ -12,6 +13,10 @@ import (
 )
 
 func TestCommitGen(t *testing.T) {
+	if os.Getenv("INTEGRATION") == "" {
+		t.Skip("skipping test...")
+	}
+
 	diff := `
 [main (root-commit) 2c5505c] init
  3 files changed, 377 insertions(+)
